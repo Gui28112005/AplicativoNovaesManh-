@@ -2,7 +2,7 @@
   "expo": {
     "name": "my-app",
     "slug": "my-app",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./src/Imagens/estrelaNovaes.png",
     "userInterfaceStyle": "light",
@@ -18,18 +18,19 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.camila19.myapp"
+      "package": ""
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "17e9c631-a0cc-43da-b0b6-79b6a05f0bc4"
+        "projectId": ""
       }
     }
   }
