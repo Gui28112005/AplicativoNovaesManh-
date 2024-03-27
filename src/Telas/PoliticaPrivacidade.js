@@ -14,7 +14,7 @@ import Ionicons from "react-native-ionicons";
 
 const windowWidth = Dimensions.get("window").width;
 
-export default function Tela10() {
+export default function PoliticaPrivacidade() {
 
   return (
     <LinearGradient colors={["#FFFFFF", "#FFFFFF"]} style={styles.gradient}>
@@ -26,7 +26,7 @@ export default function Tela10() {
             <Text style={styles.resumo}>
               A privacidade dos usuários é uma prioridade para nós.
               Comprometemo-nos a respeitar a privacidade dos visitantes do site
-              calc. hidraulicos e de outros sites sob nossa gestão. Coletamos
+              Calculos hidraulicos e de outros sites sob nossa gestão. Coletamos
               informações pessoais apenas quando necessário, agindo de maneira
               justa e legal, com o consentimento do usuário. Informamos
               claramente os motivos da coleta e como os dados serão utilizados.
@@ -64,6 +64,8 @@ export default function Tela10() {
   );
 }
 
+
+
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
@@ -85,23 +87,27 @@ const styles = StyleSheet.create({
   sobrePolitica: {
     marginTop: 20,
     fontSize: 34,
-    fontWeight: "bold",
     height: 640,
-    padding: -20
+    padding: -20,
+    fontFamily: "Montserrat-Bold",
+    
   },
   privacidade: {
     marginTop: -600,
     fontSize: 34,
-    fontWeight: "bold",
     height: 620,
-    color: "#007B8F"
+    color: "#007B8F",
+    fontFamily: "Montserrat-Bold",
+
   },
   resumo: {
     marginTop: -550,
-    fontSize: 16,
+    fontSize: 20,
     textAlign: "justify",
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     width: windowWidth * 0.9,
-    marginRight: 15,
+    marginRight: -5,
+    fontFamily: "Montserrat-Regular",
+    
   },
 });

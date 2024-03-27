@@ -2,16 +2,23 @@ import React, { useState } from 'react';
 import { View, Modal, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const Tela9 = () => {
+const Ajuda = () => {
   const [modalVisible1, setModalVisible1] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
 
+ 
+
   return (
+    
     <LinearGradient
     colors={["#FFFFFF", "#FFFFFF"]}
       style={styles.gradient}
     >
+      
+      <Text style={styles.titulo}>
+  DÚVIDAS FREQUENTES
+</Text>
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.buttonContainer}
@@ -106,25 +113,36 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent', // Definido como transparente para permitir que o gradiente seja visível
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    // Adicione as propriedades de sombra
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 0,
+    marginBottom: 100,
+
   },
   buttonContainer: {
     marginVertical: 10,
     width: 300,
     borderRadius: 10,
     overflow: 'hidden',
-    backgroundColor: '#083C52',
+    backgroundColor: '#007B8F',
     padding: 10,
     alignItems: 'center',
     width: "90%",
-    height: 50
+    height: 70,
+    
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
     textAlign: 'center',
+    fontFamily: "Montserrat-Bold",
   },
   modalContainer: {
     flex: 1,
@@ -149,6 +167,14 @@ const styles = StyleSheet.create({
     height: 500,
     marginBottom: 10,
   },
+
+  titulo:{
+    fontSize:30,
+    textAlign: 'center',
+    fontFamily: "Montserrat-Regular",
+    marginTop:100,
+
+  }
 });
 
-export default Tela9;
+export default Ajuda;

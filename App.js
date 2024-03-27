@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -8,30 +8,48 @@ import {
 } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
+import * as Font from 'expo-font';
 
-import Tela2 from "./src/Telas/Tela2";
-import Tela3 from "./src/Telas/Tela3";
-import Tela4 from "./src/Telas/Tela4";
-import Tela5 from "./src/Telas/Tela5";
-import Tela6 from "./src/Telas/Tela6";
-import Tela7 from "./src/Telas/Tela7";
-import Tela8 from "./src/Telas/Tela8";
-import Tela9 from "./src/Telas/Tela9";
-import Tela10 from "./src/Telas/Tela10";
+import Perimetro from "./src/Telas/Perimetro";
+import Vazao from "./src/Telas/Vazao";
+import PerdaCarga from "./src/Telas/PerdaCarga";
+import SobreNos from "./src/Telas/SobreNos";
+import CalculoDarcy from "./src/Telas/CalculoDarcy";
+import DimenTubulacao from "./src/Telas/DimenTubulacao";
+import Ajuda from "./src/Telas/Ajuda";
+import PoliticaPrivacidade from "./src/Telas/PoliticaPrivacidade";
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadFont = async () => {
+      await Font.loadAsync({
+        'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf'),
+        'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf')
+      });
+      setFontLoaded(true);
+    }
+
+    loadFont();
+  }, []);
+
+  if (!fontLoaded) {
+    return null; // Renderizar qualquer coisa enquanto a fonte está sendo carregada
+  }
+
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={MyTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Calculos Hidraulicos" component={Menu} />
-        <Stack.Screen name="Perimetro" component={Tela2} />
-        <Stack.Screen name="Q/V" component={Tela3} />
-        <Stack.Screen name="Perda de Carga" component={Tela4} />
-        <Stack.Screen name="Calculo de Darcy" component={Tela6} />
-        <Stack.Screen name="Dimensionamento de Tubulação" component={Tela7} />
-        <Stack.Screen name="Area" component={Tela8} />
+        <Stack.Screen name="Perimetro" component={Perimetro} />
+        <Stack.Screen name="Vazão" component={Vazao} />
+        <Stack.Screen name="Perda de Carga" component={PerdaCarga} />
+        <Stack.Screen name="Calculo de Darcy" component={CalculoDarcy} />
+        <Stack.Screen name="Dimensionamento de Tubulação" component={DimenTubulacao} />
+        {/* <Stack.Screen name="Area" component={Tela8} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -39,30 +57,39 @@ const App = () => {
 
 const Drawer = createDrawerNavigator();
 
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: 'white', // Define a cor de fundo padrão
+  },
+};
+
 function CustomDrawerContent({ isMenuOpen, toggleMenu, ...props }) {
   return (
     <DrawerContentScrollView {...props}>
       <View
         style={{
-          backgroundColor: "#083C52",
+          backgroundColor: "#007B8F",
           padding: 20,
           marginTop: -50,
+          
         }}
       >
         <Text
           style={{
             color: "white",
-            fontSize: 28,
-            fontWeight: "bold",
+            fontSize: 22,
             marginTop: 50,
+            fontFamily: "Montserrat-Bold"
           }}
         >
-          Calculos Hidraulicos
+          Cálculos Hidráulicos
         </Text>
       </View>
       <DrawerItemList
         {...props}
-        labelStyle={{ marginLeft: -10, fontSize: 16 }}
+        labelStyle={{ marginLeft: -10, fontSize: 16}}
       />
     </DrawerContentScrollView>
   );
@@ -84,12 +111,20 @@ function Menu() {
           toggleMenu={toggleMenu}
         />
       )}
+      screenOptions={{
+        headerTintColor: "white",
+        drawerActiveBackgroundColor: "#007B8F", // Cor de fundo do item selecionado
+        drawerActiveTintColor: "#fff", // Cor do texto do item selecionado
+        labelStyle: {
+          fontFamily: "Montserrat-Bold", // Aplicando a fonte personalizada
+        },
+      }}
     >
       <Drawer.Screen
-        name="Inicio"
+        name="Início"
         component={HomeScreen}
         options={{
-          drawerLabel: "Inicio",
+          drawerLabel: "Início",
           drawerIcon: ({ focused, color, size }) => (
             <Ionicons
               name={focused ? "home" : "home-outline"}
@@ -97,12 +132,16 @@ function Menu() {
               color={color}
             />
           ),
+          headerStyle: {
+            backgroundColor: '#007B8F',
+          },
+          headerTintColor: 'white',
         }}
       />
 
       <Drawer.Screen
         name="Sobre Nós"
-        component={Tela5}
+        component={SobreNos}
         options={{
           drawerLabel: "Sobre Nós",
           drawerIcon: ({ focused, color, size }) => (
@@ -112,31 +151,44 @@ function Menu() {
               color={color}
             />
           ),
+          headerStyle: {
+            backgroundColor: '#007B8F' ,
+          },
+          headerTintColor: 'white',
         }}
       />
       <Drawer.Screen
         name="Politica de Privacidade"
-        component={Tela10}
+        component={PoliticaPrivacidade}
         options={{
-          drawerLabel: "Politica de Privacidade",
+          drawerLabel: "Política de Privacidade",
           drawerIcon: ({ focused, color, size }) => (
             <Ionicons name="document-text" size={size} color={color} />
           ),
+          headerStyle: {
+            backgroundColor: '#007B8F',
+          },
+          headerTintColor: 'white',
         }}
       />
       <Drawer.Screen
         name="Ajuda"
-        component={Tela9}
+        component={Ajuda}
         options={{
           drawerLabel: "Ajuda",
           drawerIcon: ({ focused, color, size }) => (
             <Ionicons name="help-circle-outline" size={size} color={color} />
           ),
+          headerStyle: {
+            backgroundColor: '#007B8F',
+          },
+          headerTintColor: 'white',
         }}
       />
     </Drawer.Navigator>
   );
 }
+
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -145,14 +197,14 @@ const HomeScreen = ({ navigation }) => {
         style={styles.button}
         onPress={() => navigation.navigate("Perimetro")}
       >
-        <Text style={styles.buttonText}>Perimetro</Text>
+        <Text style={styles.buttonText}>Perímetro</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Q/V")}
+        onPress={() => navigation.navigate("Vazão")}
       >
-        <Text style={styles.buttonText}>Q/V</Text>
+        <Text style={styles.buttonText}>Vazão</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -166,7 +218,7 @@ const HomeScreen = ({ navigation }) => {
         style={styles.button}
         onPress={() => navigation.navigate("Calculo de Darcy")}
       >
-        <Text style={styles.buttonText}>Calculo de Darcy</Text>
+        <Text style={styles.buttonText}>Cálculo de Darcy</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -175,16 +227,10 @@ const HomeScreen = ({ navigation }) => {
       >
         <Text style={styles.buttonText}>Dimensionamento de Tubulação</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Area")}
-      >
-        <Text style={styles.buttonText}>Calcular Área</Text>
-      </TouchableOpacity>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -193,17 +239,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    backgroundColor: "#083C52",
+    backgroundColor: "#007B8F",
     margin: 10,
     borderRadius: 15,
-    width: "80%",
+    width: "90%",
     height: 100,
     alignItems: "center",
     justifyContent: "center",
   },
   buttonText: {
     color: "#fff",
-    fontSize: 19,
+    fontSize: 18,
+    fontFamily: 'Montserrat-Regular', // Aplicando a fonte personalizada
   },
 });
 
