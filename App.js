@@ -49,7 +49,6 @@ const App = () => {
         <Stack.Screen name="Perda de Carga" component={PerdaCarga} />
         <Stack.Screen name="Calculo de Darcy" component={CalculoDarcy} />
         <Stack.Screen name="Dimensionamento de Tubulação" component={DimenTubulacao} />
-        {/* <Stack.Screen name="Area" component={Tela8} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
