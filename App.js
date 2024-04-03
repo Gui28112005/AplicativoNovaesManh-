@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-} from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
 import * as Font from 'expo-font';
 
+// Importações de telas do projeto
 import Perimetro from "./src/Telas/Perimetro";
 import Vazao from "./src/Telas/Vazao";
 import PerdaCarga from "./src/Telas/PerdaCarga";
@@ -19,11 +17,15 @@ import DimenTubulacao from "./src/Telas/DimenTubulacao";
 import Ajuda from "./src/Telas/Ajuda";
 import PoliticaPrivacidade from "./src/Telas/PoliticaPrivacidade";
 
+// Inicialização do navegador de pilha (stack navigator)
 const Stack = createNativeStackNavigator();
 
+// Componente principal do aplicativo
 const App = () => {
+  // Estado para verificar se a fonte foi carregada
   const [fontLoaded, setFontLoaded] = useState(false);
 
+  // Efeito para carregar a fonte quando o componente é montado
   useEffect(() => {
     const loadFont = async () => {
       await Font.loadAsync({
@@ -36,10 +38,12 @@ const App = () => {
     loadFont();
   }, []);
 
+  // Se a fonte ainda não foi carregada, retorna null
   if (!fontLoaded) {
     return null; // Renderizar qualquer coisa enquanto a fonte está sendo carregada
   }
 
+  // Retorna a navegação do aplicativo
   return (
     <NavigationContainer theme={MyTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -50,12 +54,16 @@ const App = () => {
         <Stack.Screen name="Calculo de Darcy" component={CalculoDarcy} />
         <Stack.Screen name="Dimensionamento de Tubulação" component={DimenTubulacao} />
       </Stack.Navigator>
+      {/* Define a cor da barra de notificações */}
+      <StatusBar style="light" backgroundColor="#007B8F" />
     </NavigationContainer>
   );
 };
 
+// Inicialização do navegador de gaveta (drawer navigator)
 const Drawer = createDrawerNavigator();
 
+// Configurações de tema personalizado
 const MyTheme = {
   ...DefaultTheme,
   colors: {
@@ -64,6 +72,7 @@ const MyTheme = {
   },
 };
 
+// Componente personalizado para o conteúdo do drawer
 function CustomDrawerContent({ isMenuOpen, toggleMenu, ...props }) {
   return (
     <DrawerContentScrollView {...props}>
@@ -72,7 +81,6 @@ function CustomDrawerContent({ isMenuOpen, toggleMenu, ...props }) {
           backgroundColor: "#007B8F",
           padding: 20,
           marginTop: -50,
-          
         }}
       >
         <Text
@@ -88,19 +96,22 @@ function CustomDrawerContent({ isMenuOpen, toggleMenu, ...props }) {
       </View>
       <DrawerItemList
         {...props}
-        labelStyle={{ marginLeft: -10, fontSize: 16}}
+        labelStyle={{ marginLeft: -10, fontSize: 16 }}
       />
     </DrawerContentScrollView>
   );
 }
 
+// Componente para renderizar o menu
 function Menu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // Função para alternar o estado do menu
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Retorna o navegador de gaveta com as telas do menu
   return (
     <Drawer.Navigator
       drawerContent={(props) => (
@@ -137,7 +148,6 @@ function Menu() {
           headerTintColor: 'white',
         }}
       />
-
       <Drawer.Screen
         name="Sobre Nós"
         component={SobreNos}
@@ -151,7 +161,7 @@ function Menu() {
             />
           ),
           headerStyle: {
-            backgroundColor: '#007B8F' ,
+            backgroundColor: '#007B8F',
           },
           headerTintColor: 'white',
         }}
@@ -188,7 +198,7 @@ function Menu() {
   );
 }
 
-
+// Componente para a tela inicial do menu
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
@@ -230,7 +240,7 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
-
+// Estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -249,8 +259,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontSize: 18,
-    fontFamily: 'Montserrat-Regular', // Aplicando a fonte personalizada
+    fontFamily: 'Montserrat-Regular',
   },
 });
 
+// Exporta o componente App
 export default App;

@@ -1,25 +1,28 @@
+// Imports
 import React, { useState } from 'react';
-import { View, Modal, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View, Modal, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'; // Import dos componentes usados
+import { LinearGradient } from 'expo-linear-gradient'; // Importação Grandient Linear
 
+// Componente Ajuda
 const Ajuda = () => {
+  // Controla a visibilidade dos modais da tela
   const [modalVisible1, setModalVisible1] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
 
- 
-
   return (
-    
+    // Linear Gradient
     <LinearGradient
-    colors={["#FFFFFF", "#FFFFFF"]}
+      colors={["#FFFFFF", "#FFFFFF"]}
       style={styles.gradient}
     >
-      
+      {/* // Titulo */}
       <Text style={styles.titulo}>
-  DÚVIDAS FREQUENTES
-</Text>
+        DÚVIDAS FREQUENTES
+      </Text>
+      {/* Container de botões */}
       <View style={styles.container}>
+        {/* Botão ajuda 1 */}
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => setModalVisible1(true)}
@@ -28,6 +31,7 @@ const Ajuda = () => {
             1- Como usar as calculadoras do aplicativo?
           </Text>
         </TouchableOpacity>
+        {/* Botão ajuda 2 */}
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => setModalVisible2(true)}
@@ -36,6 +40,7 @@ const Ajuda = () => {
             2- Como posso me localizar no App?
           </Text>
         </TouchableOpacity>
+        {/* Botão ajuda 3 */}
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => setModalVisible3(true)}
@@ -45,7 +50,8 @@ const Ajuda = () => {
           </Text>
         </TouchableOpacity>
         
-        {/* Modals */}
+        {/* Modais */}
+        {/* Modal ajuda 1 */}
         <Modal
           animationType="slide"
           transparent={true}
@@ -65,6 +71,7 @@ const Ajuda = () => {
           </View>
         </Modal>
         
+        {/* Modal ajuda 2 */}
         <Modal
           animationType="slide"
           transparent={true}
@@ -84,6 +91,7 @@ const Ajuda = () => {
           </View>
         </Modal>
         
+        {/* Modal ajuda 3 */}
         <Modal
           animationType="slide"
           transparent={true}
@@ -107,6 +115,7 @@ const Ajuda = () => {
   );
 };
 
+// Estilos
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
@@ -117,14 +126,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
     borderRadius: 15,
-    // Adicione as propriedades de sombra
+    // Aqui está as propriedades para adicionar a sombra
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
     elevation: 0,
     marginBottom: 100,
-
   },
   buttonContainer: {
     marginVertical: 10,
@@ -136,7 +144,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: "90%",
     height: 70,
-    
   },
   buttonText: {
     color: '#FFFFFF',
@@ -167,14 +174,13 @@ const styles = StyleSheet.create({
     height: 500,
     marginBottom: 10,
   },
-
   titulo:{
     fontSize:30,
     textAlign: 'center',
     fontFamily: "Montserrat-Regular",
     marginTop:100,
-
   }
 });
 
+// Exporta o componente Ajuda
 export default Ajuda;

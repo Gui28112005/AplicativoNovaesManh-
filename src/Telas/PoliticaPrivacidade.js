@@ -1,13 +1,6 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import {
-  Text,
-  View,
-  ScrollView,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  Linking,
+import {Text,View,ScrollView,StyleSheet,Dimensions,TouchableOpacity, Linking,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "react-native-ionicons";

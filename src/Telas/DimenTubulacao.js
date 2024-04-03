@@ -1,28 +1,26 @@
+// Imports necessários
 import React from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import VoltarTela from './VoltarTela';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native'; // Import dos componentes usados
+import { LinearGradient } from 'expo-linear-gradient'; // Import Linear Gradient
+import VoltarTela from './VoltarTela'; // Import da seta de voltar tela
 
+// Componente DimenTubulacao
 const DimenTubulacao = ({ navigation }) => {
+  // Armazenar os valores dos campos e o resultado do cálculo
   const [flowRate, setFlowRate] = React.useState('');
   const [velocity, setVelocity] = React.useState('');
   const [diameter, setDiameter] = React.useState('');
   const [result, setResult] = React.useState(null);
 
+  // Função para calcular o dimensionamento de tubulação
   const calculateDimension = () => {
+    // Caso o usuario não insira todos os valores que o calculo precisa
     if (!flowRate || !velocity || !diameter) {
       setResult('Por favor, insira todos os valores.');
       return;
     }
 
+    // Calcula a velocidade
     const calculatedResult = calculateVelocity(
       Number(flowRate),
       Number(diameter)
@@ -30,12 +28,14 @@ const DimenTubulacao = ({ navigation }) => {
     setResult(calculatedResult.toString());
   };
 
+  // Função para calcular a velocidade
   const calculateVelocity = (flowRate, diameter) => {
     const area = Math.PI * (diameter / 2) ** 2;
     const velocity = flowRate / area;
     return velocity;
   };
 
+  // Função para limpar os campos
   const limparCampos = () => {
     setFlowRate('');
     setDiameter('');
@@ -44,16 +44,21 @@ const DimenTubulacao = ({ navigation }) => {
   };
 
   return (
+    // Gradiente de fundo
     <LinearGradient colors={['#FFFFFF', '#FFFFFF']} style={styles.gradient}>
+      {/* ScrollView para permitir a rolagem */}
       <ScrollView
         contentContainerStyle={styles.scrollViewContent}
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.container}>
+          {/* Componente VoltarTela */}
           <VoltarTela onPress={() => navigation.goBack()} />
 
+          {/* Título */}
           <Text style={styles.title}>Dimensionamento</Text>
           <Text style={styles.titleTubo}>de Tubulação</Text>
+          {/* Inputs para os valores */}
           <TextInput
             style={styles.input}
             onChangeText={(text) => setFlowRate(text)}
@@ -76,6 +81,7 @@ const DimenTubulacao = ({ navigation }) => {
             keyboardType="numeric"
           />
 
+          {/* Botões para calcular e limpar */}
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[styles.button, { backgroundColor: '#53A176' }]}
@@ -94,6 +100,7 @@ const DimenTubulacao = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
+          {/* Exibe o resultado */}
           {result !== null && result !== '' && (
             <Text style={styles.result}>Resultado: {result}</Text>
           )}
@@ -103,8 +110,10 @@ const DimenTubulacao = ({ navigation }) => {
   );
 };
 
-const { width, height } = Dimensions.get('window'); // Obtenha as dimensões da tela
+// Obtém as dimensões da tela
+const { width, height } = Dimensions.get('window');
 
+// Estilos
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -128,12 +137,12 @@ const styles = StyleSheet.create({
     elevation: 0,
   },
   title: {
-    fontSize: width * 0.08, // 5% da largura da tela
+    fontSize: width * 0.08,
     marginBottom: 10,
     fontFamily: 'Montserrat-Bold',
   },
   titleTubo: {
-    fontSize: width * 0.08, // 5% da largura da tela
+    fontSize: width * 0.08,
     marginBottom: 50,
     fontFamily: 'Montserrat-Bold',
   },
@@ -184,4 +193,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exporta o componente DimenTubulacao
 export default DimenTubulacao;

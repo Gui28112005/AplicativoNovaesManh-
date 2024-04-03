@@ -1,3 +1,4 @@
+// Imports
 import React from "react";
 import {
   View,
@@ -8,10 +9,12 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import VoltarTela from "./VoltarTela";
+import { LinearGradient } from "expo-linear-gradient"; // Importação do gradiente linear
+import VoltarTela from "./VoltarTela"; // Componente de voltar tela
 
+// Componente CalculoDarcy
 const CalculoDarcy = ({ navigation }) => {
+  // Armazenar os valores dos campos e o resultado do cálculo
   const [flowRate, setFlowRate] = React.useState("");
   const [pipeDiameter, setPipeDiameter] = React.useState("");
   const [pipeLength, setPipeLength] = React.useState("");
@@ -19,20 +22,25 @@ const CalculoDarcy = ({ navigation }) => {
   const [density, setDensity] = React.useState("");
   const [result, setResult] = React.useState("");
 
+  // Função para calcular o número de Reynolds
   const calculateDarcy = () => {
+    // Cálculos dos parâmetros necessários
     const flowArea = Math.PI * Math.pow(pipeDiameter / 2, 2);
     const velocity = flowRate / flowArea;
     const reynoldsNumber = (velocity * pipeDiameter * density) / viscosity;
 
+    // Verifica se todos os campos foram preenchidos
     if (!flowRate || !pipeDiameter || !pipeLength ||!viscosity || !density) {
       setResult('Por favor, insira todos os valores.');
       return;
     }
 
+    // Define o resultado calculado
     const calculatedResult = reynoldsNumber.toString();
     setResult(calculatedResult);
   };
 
+  // Função para limpar os campos
   const limparCampos = () => {
     setFlowRate("");
     setPipeDiameter("");
@@ -43,16 +51,21 @@ const CalculoDarcy = ({ navigation }) => {
   };
 
   return (
+    // Gradiente de fundo
     <LinearGradient colors={["#FFFFFF", "#FFFFFF"]} style={styles.gradient}>
+      {/* ScrollView para permitir a rolagem */}
       <ScrollView
         contentContainerStyle={styles.scrollViewContent}
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.container}>
+          {/* Componente VoltarTela */}
           <VoltarTela onPress={() => navigation.goBack()} />
 
+          {/* Título */}
           <Text style={styles.title}>Cálculo de Darcy</Text>
 
+          {/* Inputs para os valores */}
           <TextInput
             style={[styles.input, styles.shadow]}
             onChangeText={(text) => setFlowRate(text)}
@@ -61,6 +74,7 @@ const CalculoDarcy = ({ navigation }) => {
             keyboardType="numeric"
           />
 
+          {/* Inputs para os valores */}
           <TextInput
             style={[styles.input, styles.shadow]}
             onChangeText={(text) => setPipeDiameter(text)}
@@ -69,6 +83,7 @@ const CalculoDarcy = ({ navigation }) => {
             keyboardType="numeric"
           />
 
+          {/* Inputs para os valores */}
           <TextInput
             style={[styles.input, styles.shadow]}
             onChangeText={(text) => setPipeLength(text)}
@@ -77,6 +92,7 @@ const CalculoDarcy = ({ navigation }) => {
             keyboardType="numeric"
           />
 
+          {/* Inputs para os valores */}
           <TextInput
             style={[styles.input, styles.shadow]}
             onChangeText={(text) => setViscosity(text)}
@@ -85,6 +101,7 @@ const CalculoDarcy = ({ navigation }) => {
             keyboardType="numeric"
           />
 
+          {/* Inputs para os valores */}
           <TextInput
             style={[styles.input, styles.shadow]}
             onChangeText={(text) => setDensity(text)}
@@ -93,6 +110,7 @@ const CalculoDarcy = ({ navigation }) => {
             keyboardType="numeric"
           />
 
+          {/* Botões para calcular e limpar */}
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[styles.button, styles.shadow, { backgroundColor: "#53A176", width: '45%' }]}
@@ -111,18 +129,20 @@ const CalculoDarcy = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
+          {/* Exibe o resultado */}
           {result !== "" && (
             <Text style={styles.result}>Resultado: {result}</Text>
           )}
         </View>
-        
       </ScrollView>
     </LinearGradient>
   );
 };
 
+// Obtém as dimensões da tela
 const { width, height } = Dimensions.get("window");
 
+// Estilos
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
@@ -193,4 +213,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exporta o componente CalculoDarcy
 export default CalculoDarcy;

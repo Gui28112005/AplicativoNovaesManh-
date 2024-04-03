@@ -1,54 +1,58 @@
+// Imports
 import React from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions, // Importe Dimensions para obter informações sobre o tamanho da tela
-} from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Dimensions, } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import VoltarTela from "./VoltarTela";
 
+// Componente Perimetro
 const Perimetro = ({ navigation }) => {
+  // Estados para armazenar o raio e o resultado do cálculo
   const [radius, setRadius] = React.useState("");
   const [result, setResult] = React.useState(null);
 
+  // Função para calcular a área do círculo
   const calculateArea = () => {
     if (!isNaN(radius) && parseFloat(radius) >= 0) {
       const area = Math.PI * Math.pow(parseFloat(radius), 2);
       setResult(area.toFixed(2));
     } else {
-      setResult('Por favor, insira todos os valores.');
+      setResult('Por favor, insira um valor válido para o raio.');
     }
   };
 
+  // Função para limpar os campos
   const limparCampos = () => {
     setRadius("");
     setResult(null);
   };
 
   return (
+    // Gradiente de fundo
     <LinearGradient colors={["#FFFFFF", "#FFFFFF"]} style={styles.gradient}>
+      {/* ScrollView para permitir a rolagem */}
       <ScrollView
         contentContainerStyle={styles.containerScrollView}
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.container}>
+          {/* Componente VoltarTela */}
           <VoltarTela onPress={() => navigation.goBack()} />
 
+          {/* Título */}
           <Text style={styles.title}>Área do Círculo</Text>
+
+          {/* Input para o raio */}
           <View style={styles.textInput}>
             <TextInput
-              style={[styles.input, { paddingHorizontal: "10%" }]}
+              style={[styles.input, { paddingHorizontal: "10%" }]} // Ajuste do paddingHorizontal responsivo
               onChangeText={(text) => setRadius(text)}
               value={radius}
-              placeholder="Raio do Circulo"
+              placeholder="Raio do Círculo"
               keyboardType="numeric"
             />
           </View>
 
+          {/* Botões para calcular e limpar */}
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[styles.button, { backgroundColor: "#53A176" }]}
@@ -67,6 +71,7 @@ const Perimetro = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
+          {/* Exibe o resultado */}
           {result !== null && (
             <Text style={styles.result}>
               Área: {result} unidades quadradas
@@ -78,8 +83,10 @@ const Perimetro = ({ navigation }) => {
   );
 };
 
+// Obtém as dimensões da tela
 const { width, height } = Dimensions.get("window");
 
+// Estilos
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
@@ -100,12 +107,12 @@ const styles = StyleSheet.create({
     elevation: 0,
   },
   title: {
-    fontSize: width * 0.08, // 5% da largura da tela
+    fontSize: width * 0.08,
     marginBottom: 25,
     fontFamily: "Montserrat-Bold",
   },
   input: {
-    height: 0.15 * width, // 6% da largura da tela
+    height: 0.15 * width,
     width: "95%",
     marginBottom: 10,
     backgroundColor: "#F3F3F3",
@@ -128,7 +135,7 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    height: 0.10 * width, // 5% da largura da tela
+    height: 0.10 * width,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 11,
@@ -146,7 +153,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontFamily: 'Montserrat-Bold',
-    
   },
   result: {
     marginTop: height * 0.02,
@@ -159,4 +165,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exporta o componente Perimetro
 export default Perimetro;
