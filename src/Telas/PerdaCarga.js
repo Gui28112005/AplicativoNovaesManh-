@@ -68,7 +68,7 @@ const PerdaCarga = ({ navigation }) => {
             <TextInput
               style={[styles.input, { paddingHorizontal: width * 0.09 }]} // Ajuste do paddingHorizontal responsivo
               // multiline={true} // Permitir várias linhas
-              placeholder="Digite o comprimento do cano"
+              placeholder="Digite o comprimento do cano (m)"
               keyboardType="numeric"
               value={comprimento}
               onChangeText={(text) => setComprimento(text)}
@@ -80,7 +80,7 @@ const PerdaCarga = ({ navigation }) => {
             <TextInput
               style={[styles.input, { paddingHorizontal: width * 0.09 }]} // Ajuste do paddingHorizontal responsivo
               // multiline={true} // Permitir várias linhas
-              placeholder="Digite o diâmetro do cano"
+              placeholder="Digite o diâmetro do cano (m)"
               keyboardType="numeric"
               value={diametro}
               onChangeText={(text) => setDiametro(text)}
@@ -92,7 +92,7 @@ const PerdaCarga = ({ navigation }) => {
             <TextInput
               style={[styles.input, { paddingHorizontal: width * 0.09 }]} // Ajuste do paddingHorizontal responsivo
               // multiline={true} // Permitir várias linhas
-              placeholder="Digite a velocidade do fluido"
+              placeholder="Digite a velocidade do fluido (m/s)"
               keyboardType="numeric"
               value={velocidade}
               onChangeText={(text) => setVelocidade(text)}
