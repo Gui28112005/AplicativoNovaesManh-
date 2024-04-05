@@ -13,7 +13,7 @@ import { LinearGradient } from "expo-linear-gradient"; // Importação do gradie
 import VoltarTela from "./VoltarTela"; // Componente de voltar tela
 
 // Componente CalculoDarcy
-const CalculoDarcy = ({ navigation }) => {
+const PerdaCargaContinua = ({ navigation }) => {
   // Armazenar os valores dos campos e o resultado do cálculo
   const [flowRate, setFlowRate] = React.useState("");
   const [pipeDiameter, setPipeDiameter] = React.useState("");
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: width * 0.05,
-    paddingVertical: height * 0.08,
+    paddingVertical: height * 0.14,
     borderRadius: 15,
   },
   title: {
@@ -214,4 +214,4 @@ const styles = StyleSheet.create({
 });
 
 // Exporta o componente CalculoDarcy
-export default CalculoDarcy;
+export default PerdaCargaContinua;

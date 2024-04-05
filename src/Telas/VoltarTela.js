@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   barraFixa: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     backgroundColor: '#007B8F',
-    height: Platform.OS === 'ios' ? 80 : 70,
+    height: Platform.OS === 'ios' ? 100 : 90,
     justifyContent: 'flex-start',
     alignItems: 'center',
     flexDirection: 'row',

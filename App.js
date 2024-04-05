@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
+import SplashScreen from "./src/Telas/SplashScreen";
 
 // Importações de telas do projeto
 import Perimetro from "./src/Telas/Perimetro";
 import Vazao from "./src/Telas/Vazao";
-import PerdaCarga from "./src/Telas/PerdaCarga";
 import SobreNos from "./src/Telas/SobreNos";
-import CalculoDarcy from "./src/Telas/CalculoDarcy";
-import DimenTubulacao from "./src/Telas/DimenTubulacao";
 import Ajuda from "./src/Telas/Ajuda";
 import PoliticaPrivacidade from "./src/Telas/PoliticaPrivacidade";
+import DiametroEconomico from "./src/Telas/DiametroEconomico";
+import PerdaCargaContinua from "./src/Telas/PerdaCargaContinua";
+import VelocidadeTubulacao from "./src/Telas/VelocidadeDaTubulação";
 
 // Inicialização do navegador de pilha (stack navigator)
 const Stack = createNativeStackNavigator();
@@ -24,18 +29,29 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   // Estado para verificar se a fonte foi carregada
   const [fontLoaded, setFontLoaded] = useState(false);
+  // Estado para controlar a exibição da tela de splash
+  const [splashVisible, setSplashVisible] = useState(true);
 
   // Efeito para carregar a fonte quando o componente é montado
   useEffect(() => {
     const loadFont = async () => {
       await Font.loadAsync({
-        'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf'),
-        'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf')
+        "Montserrat-Regular": require("./assets/fonts/Montserrat-Regular.ttf"),
+        "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.ttf"),
       });
       setFontLoaded(true);
-    }
+    };
 
     loadFont();
+  }, []);
+
+  // Efeito para controlar o tempo de exibição da tela de splash
+  useEffect(() => {
+    const splashTimer = setTimeout(() => {
+      setSplashVisible(false);
+    }, 3000); // Tempo em milissegundos
+
+    return () => clearTimeout(splashTimer); // Limpa o timer ao desmontar o componente
   }, []);
 
   // Se a fonte ainda não foi carregada, retorna null
@@ -47,12 +63,18 @@ const App = () => {
   return (
     <NavigationContainer theme={MyTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Calculos Hidraulicos" component={Menu} />
-        <Stack.Screen name="Perimetro" component={Perimetro} />
-        <Stack.Screen name="Vazão" component={Vazao} />
-        <Stack.Screen name="Perda de Carga" component={PerdaCarga} />
-        <Stack.Screen name="Calculo de Darcy" component={CalculoDarcy} />
-        <Stack.Screen name="Dimensionamento de Tubulação" component={DimenTubulacao} />
+        {splashVisible ? (
+          <Stack.Screen name="Splash Screen" component={SplashScreen} />
+        ) : (
+          <>
+            <Stack.Screen name="Calculos Hidraulicos" component={Menu} />
+            <Stack.Screen name="Perimetro" component={Perimetro} />
+            <Stack.Screen name="Vazão" component={Vazao} />
+            <Stack.Screen name="Perda de Carga Continua" component={PerdaCargaContinua} />
+            <Stack.Screen name="DiametroEconomico" component={DiametroEconomico} />
+            <Stack.Screen name="VelocidadeDaTubulacao" component={VelocidadeDaTubulacao} />
+          </>
+        )}
       </Stack.Navigator>
       {/* Define a cor da barra de notificações */}
       <StatusBar style="light" backgroundColor="#007B8F" />
@@ -68,7 +90,7 @@ const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: 'white', // Define a cor de fundo padrão
+    background: "white", // Define a cor de fundo padrão
   },
 };
 
@@ -88,7 +110,7 @@ function CustomDrawerContent({ isMenuOpen, toggleMenu, ...props }) {
             color: "white",
             fontSize: 22,
             marginTop: 50,
-            fontFamily: "Montserrat-Bold"
+            fontFamily: "Montserrat-Bold",
           }}
         >
           Cálculos Hidráulicos
@@ -98,6 +120,9 @@ function CustomDrawerContent({ isMenuOpen, toggleMenu, ...props }) {
         {...props}
         labelStyle={{ marginLeft: -10, fontSize: 16 }}
       />
+      <TouchableOpacity onPress={toggleMenu}>
+        <Text style={{ color: "white" }}>Toggle Menu</Text>
+      </TouchableOpacity>
     </DrawerContentScrollView>
   );
 }
@@ -143,9 +168,9 @@ function Menu() {
             />
           ),
           headerStyle: {
-            backgroundColor: '#007B8F',
+            backgroundColor: "#007B8F",
           },
-          headerTintColor: 'white',
+          headerTintColor: "white",
         }}
       />
       <Drawer.Screen
@@ -161,9 +186,9 @@ function Menu() {
             />
           ),
           headerStyle: {
-            backgroundColor: '#007B8F',
+            backgroundColor: "#007B8F",
           },
-          headerTintColor: 'white',
+          headerTintColor: "white",
         }}
       />
       <Drawer.Screen
@@ -175,9 +200,9 @@ function Menu() {
             <Ionicons name="document-text" size={size} color={color} />
           ),
           headerStyle: {
-            backgroundColor: '#007B8F',
+            backgroundColor: "#007B8F",
           },
-          headerTintColor: 'white',
+          headerTintColor: "white",
         }}
       />
       <Drawer.Screen
@@ -189,9 +214,9 @@ function Menu() {
             <Ionicons name="help-circle-outline" size={size} color={color} />
           ),
           headerStyle: {
-            backgroundColor: '#007B8F',
+            backgroundColor: "#007B8F",
           },
-          headerTintColor: 'white',
+          headerTintColor: "white",
         }}
       />
     </Drawer.Navigator>
@@ -214,21 +239,35 @@ const HomeScreen = ({ navigation }) => {
         onPress={() => navigation.navigate("Vazão")}
       >
         <Text style={styles.buttonText}>Vazão</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> 
+
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Perda de Carga")}
+        onPress={() => navigation.navigate("DiametroEconomico")}
       >
-        <Text style={styles.buttonText}>Perda de Carga</Text>
+        <Text style={styles.buttonText}>Diâmetro econômico</Text>
       </TouchableOpacity>
+
+
+
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Calculo de Darcy")}
+        onPress={() => navigation.navigate("Perda de Carga Continua")}
       >
-        <Text style={styles.buttonText}>Cálculo de Darcy</Text>
+        <Text style={styles.buttonText}>Perda de Carga Continua</Text>
       </TouchableOpacity>
+
+
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("VelocidadeTubulacao")}
+      >
+        <Text style={styles.buttonText}>Cálcuaaaaaa</Text>
+      </TouchableOpacity>
+
 
       <TouchableOpacity
         style={styles.button}
@@ -237,6 +276,8 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.buttonText}>Dimensionamento de Tubulação</Text>
       </TouchableOpacity>
     </View>
+
+    
   );
 };
 
@@ -250,7 +291,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#007B8F",
     margin: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     width: "90%",
     height: 100,
     alignItems: "center",
@@ -258,8 +299,13 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 18,
-    fontFamily: 'Montserrat-Regular',
+    fontSize: 19,
+    fontFamily: "Montserrat-Bold",
+  },
+  image: {
+    width: '100%', // Largura da imagem (80% da largura da tela)
+    aspectRatio: 1, // Mantém a proporção da imagem (largura:altura)
+    resizeMode: 'contain', // Modo de redimensionamento da imagem
   },
 });
 

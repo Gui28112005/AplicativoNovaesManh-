@@ -1,7 +1,14 @@
 // Imports
-import React, { useState } from 'react';
-import { View, Modal, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'; // Import dos componentes usados
-import { LinearGradient } from 'expo-linear-gradient'; // Importação Grandient Linear
+import React, { useState } from "react";
+import {
+  View,
+  Modal,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+} from "react-native"; // Import dos componentes usados
+import { LinearGradient } from "expo-linear-gradient"; // Importação Grandient Linear
 
 // Componente Ajuda
 const Ajuda = () => {
@@ -12,14 +19,9 @@ const Ajuda = () => {
 
   return (
     // Linear Gradient
-    <LinearGradient
-      colors={["#FFFFFF", "#FFFFFF"]}
-      style={styles.gradient}
-    >
+    <LinearGradient colors={["#FFFFFF", "#FFFFFF"]} style={styles.gradient}>
       {/* // Titulo */}
-      <Text style={styles.titulo}>
-        DÚVIDAS FREQUENTES
-      </Text>
+      <Text style={styles.titulo}>DÚVIDAS FREQUENTES</Text>
       {/* Container de botões */}
       <View style={styles.container}>
         {/* Botão ajuda 1 */}
@@ -49,7 +51,7 @@ const Ajuda = () => {
             3- Onde encontro a política de privacidade?
           </Text>
         </TouchableOpacity>
-        
+
         {/* Modais */}
         {/* Modal ajuda 1 */}
         <Modal
@@ -61,7 +63,7 @@ const Ajuda = () => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <Image
-                source={require('../Imagens/exemplo.jpg')}
+                source={require("../Imagens/exemplo.jpg")}
                 style={styles.image}
               />
               <TouchableOpacity onPress={() => setModalVisible1(false)}>
@@ -70,7 +72,7 @@ const Ajuda = () => {
             </View>
           </View>
         </Modal>
-        
+
         {/* Modal ajuda 2 */}
         <Modal
           animationType="slide"
@@ -81,7 +83,7 @@ const Ajuda = () => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <Image
-                source={require('../Imagens/exemplo.jpg')}
+                source={require("../Imagens/exemplo.jpg")}
                 style={styles.image}
               />
               <TouchableOpacity onPress={() => setModalVisible2(false)}>
@@ -90,7 +92,7 @@ const Ajuda = () => {
             </View>
           </View>
         </Modal>
-        
+
         {/* Modal ajuda 3 */}
         <Modal
           animationType="slide"
@@ -101,7 +103,7 @@ const Ajuda = () => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <Image
-                source={require('../Imagens/exemplo.jpg')}
+                source={require("../Imagens/exemplo.jpg")}
                 style={styles.image}
               />
               <TouchableOpacity onPress={() => setModalVisible3(false)}>
@@ -138,35 +140,35 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: 300,
     borderRadius: 10,
-    overflow: 'hidden',
-    backgroundColor: '#007B8F',
+    overflow: "hidden",
+    backgroundColor: "#007B8F",
     padding: 10,
-    alignItems: 'center',
+    alignItems: "center",
     width: "90%",
     height: 70,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
     fontFamily: "Montserrat-Bold",
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: '#083C52',
+    backgroundColor: "#083C52",
     padding: 20,
     borderRadius: 15,
-    alignItems: 'center',
+    alignItems: "center",
   },
   closeButtonText: {
-    color: '#3498DB',
+    color: "#3498DB",
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 10,
   },
   image: {
@@ -174,12 +176,12 @@ const styles = StyleSheet.create({
     height: 500,
     marginBottom: 10,
   },
-  titulo:{
-    fontSize:30,
-    textAlign: 'center',
+  titulo: {
+    fontSize: 30,
+    textAlign: "center",
     fontFamily: "Montserrat-Regular",
-    marginTop:100,
-  }
+    marginTop: 100,
+  },
 });
 
 // Exporta o componente Ajuda
