@@ -1,6 +1,13 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import {Text,View,ScrollView,StyleSheet,Dimensions,TouchableOpacity, Linking,
+import {
+  Text,
+  View,
+  ScrollView,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Linking,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "react-native-ionicons";
@@ -8,7 +15,6 @@ import Ionicons from "react-native-ionicons";
 const windowWidth = Dimensions.get("window").width;
 
 export default function PoliticaPrivacidade() {
-
   return (
     <LinearGradient colors={["#FFFFFF", "#FFFFFF"]} style={styles.gradient}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -57,8 +63,6 @@ export default function PoliticaPrivacidade() {
   );
 }
 
-
-
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
@@ -83,7 +87,6 @@ const styles = StyleSheet.create({
     height: 640,
     padding: -20,
     fontFamily: "Montserrat-Bold",
-    
   },
   privacidade: {
     marginTop: -600,
@@ -91,7 +94,6 @@ const styles = StyleSheet.create({
     height: 620,
     color: "#007B8F",
     fontFamily: "Montserrat-Bold",
-
   },
   resumo: {
     marginTop: -550,
@@ -101,6 +103,5 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.9,
     marginRight: -5,
     fontFamily: "Montserrat-Regular",
-    
   },
 });

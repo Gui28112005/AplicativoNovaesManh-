@@ -1,81 +1,69 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions,
-} from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native"; // Importe useNavigation
 import VoltarTela from "./VoltarTela";
 
-const Vazao = ({ navigation }) => {
-  const [quantidade, setQuantidade] = useState("");
-  const [volume, setVolume] = useState("");
-  const [vazao, setVazao] = useState("");
+const VelocidadeDaTubulacao = () => {
+  const navigation = useNavigation(); // Obtenha a função de navegação
 
-  const calcularVazao = () => {
-    const q = parseFloat(quantidade);
-    const v = parseFloat(volume);
+  const [diametro, setDiametro] = useState("");
+  const [fluxo, setFluxo] = useState("");
+  const [velocidade, setVelocidade] = useState("");
 
-    if (isNaN(q) || isNaN(v) || v === 0) {
-      setVazao("Por favor, insira todos os valores.");
+  const calcularVelocidade = () => {
+    const d = parseFloat(diametro);
+    const q = parseFloat(fluxo);
+
+    if (isNaN(d) || isNaN(q) || d === 0) {
+      setVelocidade("Por favor, insira todos os valores corretamente.");
       return;
     }
 
-    const resultado = q / v;
-    setVazao(`A vazão é: ${resultado}`);
+    const raio = d / 2;
+    const area = Math.PI * Math.pow(raio, 2);
+    const velocidadeCalculada = q / area;
+    setVelocidade(`A velocidade é: ${velocidadeCalculada.toFixed(2)} m/s`);
   };
 
   const limparCampos = () => {
-    setQuantidade("");
-    setVolume("");
-    setVazao("");
+    setDiametro("");
+    setFluxo("");
+    setVelocidade("");
   };
 
   return (
     <LinearGradient colors={["#FFFFFF", "#FFFFFF"]} style={styles.gradient}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        keyboardShouldPersistTaps="handled"
-      >
+      <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
         <View style={styles.container}>
           <VoltarTela onPress={() => navigation.goBack()} />
 
           <View style={styles.tituloPrincipal}>
-            <Text style={styles.vazao}>Calculo de vazão</Text>
+            <Text style={styles.velocidade}>Cálculo de Velocidade da Tubulação</Text>
           </View>
 
-          <Text style={styles.label}>Quantidade (Q):</Text>
+          <Text style={styles.label}>Diâmetro (D):</Text>
           <TextInput
-            style={[
-              styles.input,
-              { paddingHorizontal: Dimensions.get("window").width * 0.05 },
-            ]}
-            placeholder="Digite a quantidade"
+            style={[styles.input, { paddingHorizontal: Dimensions.get("window").width * 0.05 }]}
+            placeholder="Digite o diâmetro (em metros)"
             keyboardType="numeric"
-            value={quantidade}
-            onChangeText={(text) => setQuantidade(text)}
+            value={diametro}
+            onChangeText={(text) => setDiametro(text)}
           />
 
-          <Text style={styles.label}>Volume (V):</Text>
+          <Text style={styles.label}>Fluxo (Q):</Text>
           <TextInput
-            style={[
-              styles.input,
-              { paddingHorizontal: Dimensions.get("window").width * 0.05 },
-            ]}
-            placeholder="Digite o volume"
+            style={[styles.input, { paddingHorizontal: Dimensions.get("window").width * 0.05 }]}
+            placeholder="Digite o fluxo (em metros cúbicos por segundo)"
             keyboardType="numeric"
-            value={volume}
-            onChangeText={(text) => setVolume(text)}
+            value={fluxo}
+            onChangeText={(text) => setFluxo(text)}
           />
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[styles.button, { backgroundColor: "#53A176" }]}
-              onPress={calcularVazao}
+              onPress={calcularVelocidade}
             >
               <Text style={styles.buttonText}>Calcular</Text>
             </TouchableOpacity>
@@ -90,7 +78,7 @@ const Vazao = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.result}>{vazao}</Text>
+          <Text style={styles.result}>{velocidade}</Text>
         </View>
       </ScrollView>
     </LinearGradient>
@@ -167,11 +155,11 @@ const styles = StyleSheet.create({
     fontSize: width * 0.05,
     fontFamily: "Montserrat-Regular",
   },
-  vazao: {
+  velocidade: {
     fontSize: width * 0.08, // 5% da largura da tela
     marginBottom: 30,
     fontFamily: "Montserrat-Bold",
   },
 });
 
-export default Vazao;
+export default VelocidadeDaTubulacao;
