@@ -20,8 +20,7 @@ import Ajuda from "./src/Telas/Ajuda";
 import PoliticaPrivacidade from "./src/Telas/PoliticaPrivacidade";
 import DiametroEconomico from "./src/Telas/DiametroEconomico";
 import PerdaCargaContinua from "./src/Telas/PerdaCargaContinua";
-import VelocidadeTubulacao from "./src/Telas/VelocidadeDaTubulação";
-
+import VelocidadeDaTubulacao from "./src/Telas/VelocidadeDaTubulação";
 // Inicialização do navegador de pilha (stack navigator)
 const Stack = createNativeStackNavigator();
 
@@ -70,9 +69,18 @@ const App = () => {
             <Stack.Screen name="Calculos Hidraulicos" component={Menu} />
             <Stack.Screen name="Perimetro" component={Perimetro} />
             <Stack.Screen name="Vazão" component={Vazao} />
-            <Stack.Screen name="Perda de Carga Continua" component={PerdaCargaContinua} />
-            <Stack.Screen name="DiametroEconomico" component={DiametroEconomico} />
-            <Stack.Screen name="VelocidadeDaTubulacao" component={VelocidadeDaTubulacao} />
+            <Stack.Screen
+              name="PerdaCargaContinua"
+              component={PerdaCargaContinua}
+            />
+            <Stack.Screen
+              name="DiametroEconomico"
+              component={DiametroEconomico}
+            />
+            <Stack.Screen
+              name="VelocidadeDaTubulacao"
+              component={VelocidadeDaTubulacao}
+            />
           </>
         )}
       </Stack.Navigator>
@@ -239,8 +247,7 @@ const HomeScreen = ({ navigation }) => {
         onPress={() => navigation.navigate("Vazão")}
       >
         <Text style={styles.buttonText}>Vazão</Text>
-      </TouchableOpacity> 
-
+      </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
@@ -249,35 +256,20 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.buttonText}>Diâmetro econômico</Text>
       </TouchableOpacity>
 
-
-
-
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Perda de Carga Continua")}
+        onPress={() => navigation.navigate("PerdaCargaContinua")}
       >
-        <Text style={styles.buttonText}>Perda de Carga Continua</Text>
+        <Text style={styles.buttonText}>Perda Carga Continua</Text>
       </TouchableOpacity>
 
-
-
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("VelocidadeTubulacao")}
+        onPress={() => navigation.navigate("VelocidadeDaTubulacao")}
       >
-        <Text style={styles.buttonText}>Cálcuaaaaaa</Text>
-      </TouchableOpacity>
-
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Dimensionamento de Tubulação")}
-      >
-        <Text style={styles.buttonText}>Dimensionamento de Tubulação</Text>
+        <Text style={styles.buttonText}>Velocidade da tubulação</Text>
       </TouchableOpacity>
     </View>
-
-    
   );
 };
 
@@ -303,9 +295,9 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat-Bold",
   },
   image: {
-    width: '100%', // Largura da imagem (80% da largura da tela)
+    width: "100%", // Largura da imagem (80% da largura da tela)
     aspectRatio: 1, // Mantém a proporção da imagem (largura:altura)
-    resizeMode: 'contain', // Modo de redimensionamento da imagem
+    resizeMode: "contain", // Modo de redimensionamento da imagem
   },
 });
 
