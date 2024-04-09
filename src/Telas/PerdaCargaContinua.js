@@ -1,148 +1,141 @@
-// Imports
-import React from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-} from "react-native";
-import { LinearGradient } from "expo-linear-gradient"; // Importação do gradiente linear
-import VoltarTela from "./VoltarTela"; // Componente de voltar tela
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Picker } from "@react-native-picker/picker";
+import VoltarTela from "./VoltarTela";
 
-// Componente CalculoDarcy
+const { width, height } = Dimensions.get("window");
+
 const PerdaCargaContinua = ({ navigation }) => {
-  // Armazenar os valores dos campos e o resultado do cálculo
-  const [flowRate, setFlowRate] = React.useState("");
-  const [pipeDiameter, setPipeDiameter] = React.useState("");
-  const [pipeLength, setPipeLength] = React.useState("");
-  const [viscosity, setViscosity] = React.useState("");
-  const [density, setDensity] = React.useState("");
-  const [result, setResult] = React.useState("");
+  const [flowRate, setFlowRate] = useState("");
+  const [result, setResult] = useState("");
+  const [selectedLossType, setSelectedLossType] = useState("contínua");
+  const [customK, setCustomK] = useState(""); 
+  const [coefficient, setCoefficient] = useState(""); 
+  const [diameter, setDiameter] = useState(""); 
+  const [liters, setLiters] = useState(""); // Novo estado para os litros inseridos
 
-  // Função para calcular o número de Reynolds
-  const calculateDarcy = () => {
-    // Cálculos dos parâmetros necessários
-    const flowArea = Math.PI * Math.pow(pipeDiameter / 2, 2);
-    const velocity = flowRate / flowArea;
-    const reynoldsNumber = (velocity * pipeDiameter * density) / viscosity;
-
+  const calcularPerdaCarga = () => {
     // Verifica se todos os campos foram preenchidos
-    if (!flowRate || !pipeDiameter || !pipeLength ||!viscosity || !density) {
-      setResult('Por favor, insira todos os valores.');
+    if (!flowRate || !coefficient || !diameter || !liters) {
+      setResult("Por favor, insira todos os valores.");
       return;
     }
-
+  
+    // Substitui vírgulas por pontos
+    const flowRateFixed = flowRate.replace(',', '.');
+    const coefficientFixed = coefficient.replace(',', '.');
+    const diameterFixed = diameter.replace(',', '.');
+  
+    // Converte os valores para números
+    const Q = parseFloat(flowRateFixed); 
+    const D = parseFloat(diameterFixed); 
+    const C = parseFloat(coefficientFixed);
+    const L = parseFloat(liters); // Converte os litros para número
+  
+    // Verifica se os valores convertidos são válidos
+    if (isNaN(Q) || isNaN(D) || isNaN(C) || isNaN(L)) {
+      setResult("Valores de entrada inválidos.");
+      return;
+    }
+  
+    // Calcula a perda de carga
+    let hf = 0;
+    if (selectedLossType === "contínua") {
+      hf = (10.674 * Math.pow(Q, 1.852)) / (Math.pow(C, 1.852) * Math.pow(D, 4.87)) * L / 1000;
+    } else if (selectedLossType === "localizada") {
+      const V = Q / (Math.PI * Math.pow(D / 2, 2)); 
+      const finalK = customK !== "" ? parseFloat(customK) : 0.9; 
+      hf = finalK * (Math.pow(V, 2) / (2 * 9.81)); 
+    }
+  
     // Define o resultado calculado
-    const calculatedResult = reynoldsNumber.toString();
-    setResult(calculatedResult);
+    const hfFixed = hf.toFixed(4);
+    setResult("Perda de Carga: " + hfFixed.toString() + " m");
+
+    // Calcula o volume perdido em litros
+    const areaTransversal = Math.PI * Math.pow(D / 2, 2); 
+    const volumePerdido = hf * areaTransversal * 1000; // Convertendo de metros cúbicos para litros
+    setResult(result + "\nVolume Perdido: " + volumePerdido.toFixed(20) + " litross");
   };
 
-  // Função para limpar os campos
   const limparCampos = () => {
     setFlowRate("");
-    setPipeDiameter("");
-    setPipeLength("");
-    setViscosity("");
-    setDensity("");
+    setCoefficient("");
+    setDiameter("");
+    setCustomK("");
+    setLiters(""); // Limpa também o campo dos litros
     setResult("");
   };
 
   return (
-    // Gradiente de fundo
     <LinearGradient colors={["#FFFFFF", "#FFFFFF"]} style={styles.gradient}>
-      {/* ScrollView para permitir a rolagem */}
-      <ScrollView
-        contentContainerStyle={styles.scrollViewContent}
-        keyboardShouldPersistTaps="handled"
-      >
-        <View style={styles.container}>
-          {/* Componente VoltarTela */}
-          <VoltarTela onPress={() => navigation.goBack()} />
+      <View style={styles.container}>
+        <VoltarTela onPress={() => navigation.goBack()} />
+        <Text style={styles.title}>Cálculo de Perda de Carga</Text>
 
-          {/* Título */}
-          <Text style={styles.title}>Cálculo de Darcy</Text>
+        <Picker
+          selectedValue={selectedLossType}
+          style={[styles.input, styles.shadow]}
+          onValueChange={(itemValue, itemIndex) => setSelectedLossType(itemValue)}
+        >
+          <Picker.Item label="Perda de Carga Contínua" value="contínua" />
+          <Picker.Item label="Perda de Carga Localizada" value="localizada" />
+        </Picker>
 
-          {/* Inputs para os valores */}
-          <TextInput
-            style={[styles.input, styles.shadow]}
-            onChangeText={(text) => setFlowRate(text)}
-            value={flowRate}
-            placeholder="Taxa de Fluxo (m³/s)"
-            keyboardType="numeric"
-          />
+        <TextInput
+          style={[styles.input, styles.shadow]}
+          onChangeText={(text) => setFlowRate(text)}
+          value={flowRate}
+          placeholder="Vazão (m³/s)"
+          keyboardType="numeric"
+        />
 
-          {/* Inputs para os valores */}
-          <TextInput
-            style={[styles.input, styles.shadow]}
-            onChangeText={(text) => setPipeDiameter(text)}
-            value={pipeDiameter}
-            placeholder="Diâmetro do Tubo (m)"
-            keyboardType="numeric"
-          />
+        <TextInput
+          style={[styles.input, styles.shadow]}
+          onChangeText={(text) => setCoefficient(text)}
+          value={coefficient}
+          placeholder="Coeficiente de Rugosidade (C)"
+          keyboardType="numeric"
+        />
 
-          {/* Inputs para os valores */}
-          <TextInput
-            style={[styles.input, styles.shadow]}
-            onChangeText={(text) => setPipeLength(text)}
-            value={pipeLength}
-            placeholder="Comprimento do Tubo (m)"
-            keyboardType="numeric"
-          />
+        <TextInput
+          style={[styles.input, styles.shadow]}
+          onChangeText={(text) => setDiameter(text)}
+          value={diameter}
+          placeholder="Diâmetro (m)"
+          keyboardType="numeric"
+        />
 
-          {/* Inputs para os valores */}
-          <TextInput
-            style={[styles.input, styles.shadow]}
-            onChangeText={(text) => setViscosity(text)}
-            value={viscosity}
-            placeholder="Viscosidade (Pa.s)"
-            keyboardType="numeric"
-          />
+        <TextInput
+          style={[styles.input, styles.shadow]}
+          onChangeText={(text) => setLiters(text)}
+          value={liters}
+          placeholder="Litros"
+          keyboardType="numeric"
+        />
 
-          {/* Inputs para os valores */}
-          <TextInput
-            style={[styles.input, styles.shadow]}
-            onChangeText={(text) => setDensity(text)}
-            value={density}
-            placeholder="Densidade (kg/m³)"
-            keyboardType="numeric"
-          />
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: "#53A176" }]}
+            onPress={calcularPerdaCarga}
+          >
+            <Text style={styles.buttonText}>Calcular</Text>
+          </TouchableOpacity>
 
-          {/* Botões para calcular e limpar */}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={[styles.button, styles.shadow, { backgroundColor: "#53A176", width: '45%' }]}
-              onPress={calculateDarcy}
-            >
-              <Text style={styles.buttonText}>Calcular</Text>
-            </TouchableOpacity>
-
-            <View style={styles.space} />
-
-            <TouchableOpacity
-              style={[styles.button, styles.shadow, { backgroundColor: "#FF0000", width: '45%' }]}
-              onPress={limparCampos}
-            >
-              <Text style={styles.buttonText}>Limpar</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Exibe o resultado */}
-          {result !== "" && (
-            <Text style={styles.result}>Resultado: {result}</Text>
-          )}
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: "#FF0000" }]}
+            onPress={limparCampos}
+          >
+            <Text style={styles.buttonText}>Limpar</Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
+
+        <Text style={styles.result}>{result}</Text>
+      </View>
     </LinearGradient>
   );
 };
-
-// Obtém as dimensões da tela
-const { width, height } = Dimensions.get("window");
-
-// Estilos
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
@@ -171,20 +164,20 @@ const styles = StyleSheet.create({
   },
   result: {
     marginTop: height * 0.02,
-    fontSize: width * 0.05,
+    fontSize: 16,
     fontFamily: "Montserrat-Regular",
   },
   buttonContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    width: width * 0.9,
-    marginBottom: height * 0.03,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
   },
   button: {
-    flex: 1,
-    height: Dimensions.get('window').width * 0.10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: width * 0.45, // Ocupa 90% da largura da tela
+    height: width * 0.1,
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 11,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -192,13 +185,11 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 21,
   },
+
   buttonText: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     fontSize: 16,
-    fontFamily: 'Montserrat-Bold',
-  },
-  space: {
-    width: width * 0.02,
+    fontFamily: "Montserrat-Bold",
   },
   scrollViewContent: {
     flexGrow: 1,
@@ -213,5 +204,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// Exporta o componente CalculoDarcy
 export default PerdaCargaContinua;

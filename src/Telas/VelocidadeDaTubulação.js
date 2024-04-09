@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Dimensions, Modal } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useNavigation } from "@react-navigation/native"; // Importe useNavigation
+import { useNavigation } from "@react-navigation/native";
 import VoltarTela from "./VoltarTela";
+import { MaterialIcons } from '@expo/vector-icons';
 
 const VelocidadeDaTubulacao = () => {
-  const navigation = useNavigation(); // Obtenha a função de navegação
-
-  const [diametro, setDiametro] = useState("");
-  const [fluxo, setFluxo] = useState("");
+  const navigation = useNavigation();
+  const [diametro, setDiametro] = useState("0.08");
+  const [fluxo, setFluxo] = useState("0.0037");
   const [velocidade, setVelocidade] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   const calcularVelocidade = () => {
     const d = parseFloat(diametro);
@@ -39,12 +40,15 @@ const VelocidadeDaTubulacao = () => {
           <VoltarTela onPress={() => navigation.goBack()} />
 
           <View style={styles.tituloPrincipal}>
-            <Text style={styles.velocidade}>Cálculo de Velocidade da Tubulação</Text>
+            <Text style={styles.velocidade}>Velocidade da Tubulação</Text>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <MaterialIcons name="info" size={24} color="black" />
+            </TouchableOpacity>
           </View>
 
           <Text style={styles.label}>Diâmetro (D):</Text>
           <TextInput
-            style={[styles.input, { paddingHorizontal: Dimensions.get("window").width * 0.05 }]}
+            style={[styles.input, styles.textInput]}
             placeholder="Digite o diâmetro (em metros)"
             keyboardType="numeric"
             value={diametro}
@@ -53,7 +57,7 @@ const VelocidadeDaTubulacao = () => {
 
           <Text style={styles.label}>Fluxo (Q):</Text>
           <TextInput
-            style={[styles.input, { paddingHorizontal: Dimensions.get("window").width * 0.05 }]}
+            style={[styles.input, styles.textInput]}
             placeholder="Digite o fluxo (em metros cúbicos por segundo)"
             keyboardType="numeric"
             value={fluxo}
@@ -79,26 +83,46 @@ const VelocidadeDaTubulacao = () => {
           </View>
 
           <Text style={styles.result}>{velocidade}</Text>
+          
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(false);
+            }}
+          >
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Seu texto informativo aqui...</Text>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => {
+                  setModalVisible(false);
+                }}
+              >
+                <Text style={styles.closeButtonText}>Fechar</Text>
+              </TouchableOpacity>
+            </View>
+          </Modal>
         </View>
       </ScrollView>
     </LinearGradient>
   );
 };
 
-const { width, height } = Dimensions.get("window");
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: Dimensions.get("window").width * 0.05,
+    paddingHorizontal: 20,
     borderRadius: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
     elevation: 0,
+    ...StyleSheet.absoluteFillObject,
   },
   gradient: {
     flex: 1,
@@ -106,17 +130,27 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
   },
+  tituloPrincipal: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  velocidade: {
+    fontSize: 30,
+    marginBottom: 33,
+    fontFamily: "Montserrat-Bold",
+    marginVertical: 55,
+  },
   label: {
-    fontSize: Dimensions.get("window").width * 0.06,
-    marginBottom: Dimensions.get("window").width * 0.03,
+    fontSize: 27,
+    marginBottom: 25,
     fontFamily: "Montserrat-Bold",
   },
   input: {
-    height: Dimensions.get("window").width * 0.15,
+    height: 60,
     width: "100%",
-    marginBottom: Dimensions.get("window").width * 0.1,
+    marginBottom: 20,
     backgroundColor: "#F3F3F3",
-    borderWidth: 0,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 1.0,
@@ -124,15 +158,19 @@ const styles = StyleSheet.create({
     elevation: 10,
     fontFamily: "Montserrat-Bold",
   },
+  textInput: {
+    paddingHorizontal: 10,
+  },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    marginBottom: Dimensions.get("window").width * 0.05,
+    marginBottom: 20,
+    marginTop: 40,
   },
   button: {
     flex: 1,
-    height: Dimensions.get("window").width * 0.1,
+    height: 40,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 11,
@@ -148,17 +186,37 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat-Bold",
   },
   space: {
-    width: Dimensions.get("window").width * 0.05,
+    width: 10,
   },
   result: {
-    marginTop: height * 0.02,
-    fontSize: width * 0.05,
+    marginTop: 10,
+    fontSize: 16,
     fontFamily: "Montserrat-Regular",
+    marginVertical: 0,
   },
-  velocidade: {
-    fontSize: width * 0.08, // 5% da largura da tela
-    marginBottom: 30,
-    fontFamily: "Montserrat-Bold",
+  modalView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalText: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+  },
+  closeButton: {
+    marginTop: 20,
+    backgroundColor: "#2196F3",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  closeButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 
