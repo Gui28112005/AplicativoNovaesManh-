@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Calculos Novaes",
+    "slug": "my-app",
+    "version": "1.4.0",
+    "orientation": "portrait",
+    "icon": "./src/Imagens/estrelaNovaes.png",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "versionCode": 5,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.leonardonogueira21.myapp"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8e6ffd9d-92d8-4880-b2c8-3bed6b955772"
+      }
+    }
+  }
+}
